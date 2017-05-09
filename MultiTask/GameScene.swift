@@ -36,10 +36,10 @@ class GameScene: SKScene {
         
         //leftArrow.setScale(0.2)
         leftArrow.size = CGSize(width: 30, height: 15)
-        leftArrow.position = CGPoint(x: self.size.width, y: 10)
+        leftArrow.position = CGPoint(x: self.size.width, y: self.size.height/2)
         
         rightArrow.size = CGSize(width: 30, height: 15)
-        rightArrow.position = CGPoint(x: 0, y: 10)
+        rightArrow.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         
         print(leftArrow.size.width)
         ball = self.childNode(withName: "Ball") as! SKSpriteNode!
@@ -64,13 +64,13 @@ class GameScene: SKScene {
         self.addChild(arrow)
         
         if(arrow === leftArrow){
-            let moveLeftArrow = SKAction.moveTo(x: 0, duration: 5)
+            let moveLeftArrow = SKAction.moveTo(x: self.size.width/2, duration: 5)
             let endGame = SKAction.run(self.gameOver)
             let arrowSequence = SKAction.sequence([moveLeftArrow, endGame])
             arrow.run(arrowSequence)
         }
         else if(arrow === rightArrow) {
-            let moveRightArrow = SKAction.moveTo(x: self.size.width/2, duration: 5)
+            let moveRightArrow = SKAction.moveTo(x: self.size.width, duration: 5)
             let endGame = SKAction.run(self.gameOver)
             let arrowSequence = SKAction.sequence([moveRightArrow, endGame])
             arrow.run(arrowSequence)
