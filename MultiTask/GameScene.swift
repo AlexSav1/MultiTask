@@ -37,7 +37,10 @@ class GameScene: SKScene {
         //leftArrow.setScale(0.2)
         leftArrow.size = CGSize(width: 30, height: 15)
         leftArrow.position = CGPoint(x: self.size.width, y: 10)
-        //print(self.size.height)
+        
+        rightArrow.size = CGSize(width: 30, height: 15)
+        rightArrow.position = CGPoint(x: 0, y: 10)
+        
         print(leftArrow.size.width)
         ball = self.childNode(withName: "Ball") as! SKSpriteNode!
         paddle = self.childNode(withName: "Paddle") as! SKSpriteNode!
@@ -52,21 +55,27 @@ class GameScene: SKScene {
     
     
     func startGame() {
-        //let arrowIndex = Int(arc4random_uniform(4))
-        //let whichArrow = arrowArray[arrowIndex]
-        self.spawnArrow(arrow: leftArrow)
+        let arrowIndex = Int(arc4random_uniform(2))
+        let whichArrow = arrowArray[arrowIndex]
+        self.spawnArrow(arrow: whichArrow)
     }
     
     func spawnArrow(arrow: SKSpriteNode) {
         self.addChild(arrow)
         
-        if(arrow == leftArrow){
-            let moveLeftArrow = SKAction.moveTo(x: 0, duration: 10)
+        if(arrow === leftArrow){
+            let moveLeftArrow = SKAction.moveTo(x: 0, duration: 5)
             let endGame = SKAction.run(self.gameOver)
             let arrowSequence = SKAction.sequence([moveLeftArrow, endGame])
             arrow.run(arrowSequence)
         }
-        
+        else if(arrow === rightArrow) {
+            let moveRightArrow = SKAction.moveTo(x: self.size.width/2, duration: 5)
+            let endGame = SKAction.run(self.gameOver)
+            let arrowSequence = SKAction.sequence([moveRightArrow, endGame])
+            arrow.run(arrowSequence)
+        }
+    
     }
     
     func gameOver() {
