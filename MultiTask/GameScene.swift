@@ -13,6 +13,8 @@ class GameScene: SKScene {
     
     let leftArrow = SKSpriteNode(imageNamed: "blue-arrow-left")
     let rightArrow = SKSpriteNode(imageNamed: "blue-arrow-right")
+    let upArrow = SKSpriteNode(imageNamed: "blue-arrow-up")
+    let downArrow = SKSpriteNode(imageNamed: "blue-arrow-down")
     
     var arrowArray = [SKSpriteNode]()
     
@@ -32,16 +34,26 @@ class GameScene: SKScene {
         self.addChild(self.player)
         */
         
-        arrowArray = [leftArrow,rightArrow]
+        arrowArray = [leftArrow,rightArrow,upArrow,downArrow]
         
         //leftArrow.setScale(0.2)
-        leftArrow.size = CGSize(width: 30, height: 15)
+        //leftArrow.size = CGSize(width: 30, height: 15)
+        leftArrow.setScale(0.1)
         leftArrow.position = CGPoint(x: self.size.width, y: self.size.height/2)
         
-        rightArrow.size = CGSize(width: 30, height: 15)
+        //rightArrow.size = CGSize(width: 30, height: 15)
+        rightArrow.setScale(0.1)
         rightArrow.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         
-        print(leftArrow.size.width)
+        //upArrow.size = CGSize(width: 30, height: 15)
+        upArrow.setScale(0.1)
+        upArrow.position = CGPoint(x: self.size.width/1.3, y: 0)
+        
+        //downArrow.size = CGSize(width: 30, height: 15)
+        downArrow.setScale(0.1)
+        downArrow.position = CGPoint(x: self.size.width/1.3, y: self.size.height)
+        
+        //print(leftArrow.size.width)
         ball = self.childNode(withName: "Ball") as! SKSpriteNode!
         paddle = self.childNode(withName: "Paddle") as! SKSpriteNode!
         
@@ -55,7 +67,7 @@ class GameScene: SKScene {
     
     
     func startGame() {
-        let arrowIndex = Int(arc4random_uniform(2))
+        let arrowIndex = Int(arc4random_uniform(4))
         let whichArrow = arrowArray[arrowIndex]
         self.spawnArrow(arrow: whichArrow)
     }
@@ -73,6 +85,18 @@ class GameScene: SKScene {
             let moveRightArrow = SKAction.moveTo(x: self.size.width, duration: 5)
             let endGame = SKAction.run(self.gameOver)
             let arrowSequence = SKAction.sequence([moveRightArrow, endGame])
+            arrow.run(arrowSequence)
+        }
+        else if(arrow === upArrow) {
+            let moveUpArrow = SKAction.moveTo(y: self.size.height, duration: 5)
+            let endGame = SKAction.run(self.gameOver)
+            let arrowSequence = SKAction.sequence([moveUpArrow, endGame])
+            arrow.run(arrowSequence)
+        }
+        else if(arrow === downArrow) {
+            let moveDownArrow = SKAction.moveTo(y: 0, duration: 5)
+            let endGame = SKAction.run(self.gameOver)
+            let arrowSequence = SKAction.sequence([moveDownArrow, endGame])
             arrow.run(arrowSequence)
         }
     
