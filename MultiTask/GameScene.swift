@@ -34,26 +34,30 @@ class GameScene: SKScene {
         self.addChild(self.player)
         */
         
+        let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeLeft(sender:)))
+        let swipeGestureRight = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeRight(sender:)))
+        
+        swipeGestureLeft.direction = UISwipeGestureRecognizerDirection.left
+        swipeGestureRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        //self.view?.addGestureRecognizer(swipeGestureLeft)
+        //self.view?.addGestureRecognizer(swipeGestureRight)
+        
+        
         arrowArray = [leftArrow,rightArrow,upArrow,downArrow]
         
-        //leftArrow.setScale(0.2)
-        //leftArrow.size = CGSize(width: 30, height: 15)
         leftArrow.setScale(0.1)
         leftArrow.position = CGPoint(x: self.size.width, y: self.size.height/2)
         
-        //rightArrow.size = CGSize(width: 30, height: 15)
         rightArrow.setScale(0.1)
         rightArrow.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
         
-        //upArrow.size = CGSize(width: 30, height: 15)
         upArrow.setScale(0.1)
         upArrow.position = CGPoint(x: self.size.width/1.3, y: 0)
         
-        //downArrow.size = CGSize(width: 30, height: 15)
         downArrow.setScale(0.1)
         downArrow.position = CGPoint(x: self.size.width/1.3, y: self.size.height)
         
-        //print(leftArrow.size.width)
         ball = self.childNode(withName: "Ball") as! SKSpriteNode!
         paddle = self.childNode(withName: "Paddle") as! SKSpriteNode!
         
@@ -109,16 +113,35 @@ class GameScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let touchLocation = touch.location(in: self)
-            paddle.position.x = touchLocation.x
+            
+            if(touchLocation.x < self.size.width/2){
+                paddle.position.x = touchLocation.x
+            }
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             let touchLocation = touch.location(in: self)
-            paddle.position.x = touchLocation.x
+            
+            if(touchLocation.x < self.size.width/2){
+                paddle.position.x = touchLocation.x
+            }
         }
     }
+    
+    func handleSwipeLeft(sender: UISwipeGestureRecognizer){
+        if (sender.location(in: self.view).x > self.size.width/2){
+            print("LEFT")
+        }
+    }
+    
+    func handleSwipeRight(sender: UISwipeGestureRecognizer){
+        if (sender.location(in: self.view).x > self.size.width/2){
+            print("RIGHT")
+        }
+    }
+    
 }
 
 
