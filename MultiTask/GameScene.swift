@@ -36,13 +36,21 @@ class GameScene: SKScene {
         
         let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeLeft(sender:)))
         let swipeGestureRight = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeRight(sender:)))
+        let swipeGestureUp = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeUp(sender:)))
+        let swipeGestureDown = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeDown(sender:)))
         
-        swipeGestureLeft.direction = UISwipeGestureRecognizerDirection.left
-        swipeGestureRight.direction = UISwipeGestureRecognizerDirection.right
+        swipeGestureLeft.direction = .left
+        swipeGestureRight.direction = .right
+        swipeGestureUp.direction = .up
+        swipeGestureDown.direction = .down
         
-        //self.view?.addGestureRecognizer(swipeGestureLeft)
-        //self.view?.addGestureRecognizer(swipeGestureRight)
+        let rightSide = UIView(frame: CGRect(x: (self.view?.frame.width)!/2, y: (self.view?.frame.origin.y)!, width: (self.view?.frame.width)!/2, height: (self.view?.frame.height)!))
         
+        rightSide.addGestureRecognizer(swipeGestureLeft)
+        rightSide.addGestureRecognizer(swipeGestureRight)
+        rightSide.addGestureRecognizer(swipeGestureUp)
+        rightSide.addGestureRecognizer(swipeGestureDown)
+        self.view?.addSubview(rightSide)
         
         arrowArray = [leftArrow,rightArrow,upArrow,downArrow]
         
@@ -71,12 +79,15 @@ class GameScene: SKScene {
     
     
     func startGame() {
-        let arrowIndex = Int(arc4random_uniform(4))
-        let whichArrow = arrowArray[arrowIndex]
-        self.spawnArrow(arrow: whichArrow)
+        
+        self.spawnArrow()
     }
     
-    func spawnArrow(arrow: SKSpriteNode) {
+    func spawnArrow() {
+        
+        let arrowIndex = Int(arc4random_uniform(4))
+        let arrow = arrowArray[arrowIndex]
+        
         self.addChild(arrow)
         
         if(arrow === leftArrow){
@@ -131,17 +142,48 @@ class GameScene: SKScene {
     }
     
     func handleSwipeLeft(sender: UISwipeGestureRecognizer){
-        if (sender.location(in: self.view).x > self.size.width/2){
-            print("LEFT")
+        print("LEFT")
+        if(self.children.contains(leftArrow)){
+            print("GOTTEM")
+            leftArrow.removeAllActions()
+            leftArrow.removeFromParent()
+            leftArrow.position = CGPoint(x: self.size.width, y: self.size.height/2)
+            self.spawnArrow()
         }
     }
     
     func handleSwipeRight(sender: UISwipeGestureRecognizer){
-        if (sender.location(in: self.view).x > self.size.width/2){
-            print("RIGHT")
+        print("RIGHT")
+        if(self.children.contains(rightArrow)){
+            print("GOTTEM")
+            rightArrow.removeAllActions()
+            rightArrow.removeFromParent()
+            rightArrow.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
+            self.spawnArrow()
         }
     }
     
+    func handleSwipeUp(sender: UISwipeGestureRecognizer){
+        print("UP")
+        if(self.children.contains(upArrow)){
+            print("GOTTEM")
+            upArrow.removeAllActions()
+            upArrow.removeFromParent()
+            upArrow.position = CGPoint(x: self.size.width/1.3, y: 0)
+            self.spawnArrow()
+        }
+    }
+    
+    func handleSwipeDown(sender: UISwipeGestureRecognizer){
+        print("DOWN")
+        if(self.children.contains(downArrow)){
+            print("GOTTEM")
+            downArrow.removeAllActions()
+            downArrow.removeFromParent()
+            downArrow.position = CGPoint(x: self.size.width/1.3, y: self.size.height)
+            self.spawnArrow()
+        }
+    }
 }
 
 
