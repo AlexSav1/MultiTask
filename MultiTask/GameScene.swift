@@ -9,6 +9,8 @@
 import SpriteKit
 import GameplayKit
 
+var score = 0
+
 class GameScene: SKScene {
     
     let leftArrow = SKSpriteNode(imageNamed: "blue-arrow-left")
@@ -22,17 +24,6 @@ class GameScene: SKScene {
     var paddle: SKSpriteNode!
     
     override func didMove(to view: SKView) {
-        /*
-        self.player.setScale(0.7)
-        self.player.position = CGPoint(x: self.size.width/2, y: 0 - self.player.size.height)
-        self.player.zPosition = 2
-        self.player.physicsBody = SKPhysicsBody(rectangleOf: self.player.size)
-        self.player.physicsBody!.affectedByGravity = false
-        self.player.physicsBody!.categoryBitMask = PhysicsCategories.Player
-        self.player.physicsBody!.collisionBitMask = PhysicsCategories.None
-        self.player.physicsBody!.contactTestBitMask = PhysicsCategories.Enemy
-        self.addChild(self.player)
-        */
         
         let swipeGestureLeft = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeLeft(sender:)))
         let swipeGestureRight = UISwipeGestureRecognizer(target: self, action: #selector(GameScene.handleSwipeRight(sender:)))
